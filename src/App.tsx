@@ -8,8 +8,10 @@ import { Room } from './components/Room';
 import { Running } from './components/Running';
 import { Verdict } from './components/Verdict';
 import { MethodModal } from './components/MethodModal';
+import { SplashScreen } from './components/SplashScreen';
 
 export default function App() {
+  const [showSplash, setShowSplash] = useState(true);
   const [currentScreen, setCurrentScreen] = useState<ScreenState>('hero');
   const [activeIdeas, setActiveIdeas] = useState<IdeaInput[]>([]);
   const [verdicts, setVerdicts] = useState<IdeaVerdict[]>([]);
@@ -64,6 +66,9 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-black text-white selection:bg-[#C6F400] selection:text-black font-body overflow-x-hidden">
+      {/* Studio Opening Splash Screen */}
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
+
       {/* 35mm Film Grain & Subtle Atmospheric Vignette on Every Screen */}
       <Grain />
 

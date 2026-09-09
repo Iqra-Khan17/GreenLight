@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, Compass, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import heroBg from '../assets/images/hero_portal_bg_1788961974950.jpg';
 
 interface HeroProps {
   onEnterRoom: () => void;
@@ -10,15 +11,59 @@ interface HeroProps {
 export const Hero: React.FC<HeroProps> = ({ onEnterRoom, onExploreMethod }) => {
   return (
     <section className="relative min-h-screen w-full flex flex-col justify-between pt-28 pb-10 px-4 sm:px-6 md:px-10 overflow-hidden bg-black text-white selection:bg-[#C6F400] selection:text-black">
+      {/* Cinematic Dark Sci-Fi Landscape Background:
+          - High-contrast near-black obsidian rocky terrain
+          - Vivid emerald atmospheric fog and volumetric lighting
+          - Distinct glowing lime-green doorway portal on the right
+          - Carefully sculpted gradient keeping the left headline area deep black & legible while letting the portal shine
+      */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none z-0 overflow-hidden"
+        aria-hidden="true"
+      >
+        {/* Cinematic landscape plate with enhanced contrast, saturation, and visibility */}
+        <div
+          className="absolute inset-0 w-full h-full opacity-45 sm:opacity-50 transition-opacity duration-1000"
+          style={{
+            backgroundImage: `url(${heroBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center right',
+            backgroundRepeat: 'no-repeat',
+            filter: 'contrast(1.25) brightness(1.06) saturate(1.20)',
+          }}
+        />
+
+        {/* Volumetric emerald & lime glow bloom directly amplifying the portal on the right */}
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            background:
+              'radial-gradient(circle at 82% 48%, rgba(198, 244, 0, 0.16) 0%, rgba(16, 185, 129, 0.08) 32%, transparent 68%)',
+          }}
+        />
+
+        {/* Sculpted directional gradient:
+            - Deep obsidian black on the left (0% - 45%) for pristine typographic readability
+            - Open clarity on the right (65% - 90%) to showcase the portal and landscape
+            - Seamless top/bottom cinematic fade into the pure black frame */}
+        <div
+          className="absolute inset-0 w-full h-full"
+          style={{
+            background:
+              'linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.90) 38%, rgba(0,0,0,0.65) 60%, rgba(0,0,0,0.15) 82%, rgba(0,0,0,0.45) 100%), linear-gradient(180deg, rgba(0,0,0,0.80) 0%, transparent 18%, transparent 82%, rgba(0,0,0,0.98) 100%)',
+          }}
+        />
+      </div>
+
       {/* Huge Faint Typographic Watermarks */}
       <div
-        className="watermark-text absolute top-10 -left-10 text-[18vw] leading-none pointer-events-none select-none"
+        className="watermark-text absolute top-10 -left-10 text-[18vw] leading-none pointer-events-none select-none z-0"
         aria-hidden="true"
       >
         REWORK
       </div>
       <div
-        className="watermark-text absolute -bottom-10 -right-10 text-[20vw] leading-none pointer-events-none select-none text-right"
+        className="watermark-text absolute -bottom-10 -right-10 text-[20vw] leading-none pointer-events-none select-none text-right z-0"
         aria-hidden="true"
       >
         PASS
@@ -26,7 +71,7 @@ export const Hero: React.FC<HeroProps> = ({ onEnterRoom, onExploreMethod }) => {
 
       {/* Slow Drifting Radial Glow Behind Headlines */}
       <div
-        className="radial-drift-glow top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2"
+        className="radial-drift-glow pointer-events-none top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0"
         aria-hidden="true"
       />
 
