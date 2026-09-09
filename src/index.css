@@ -1,0 +1,348 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-headline: 'Syne', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+    --color-greenlight: #C6F400;
+    --color-rework: #FFB020;
+    --color-pass: #FF4D4D;
+  }
+
+  html, body, #root {
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+.font-headline {
+  font-family: var(--font-headline);
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Subtle 35mm film grain overlay */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none !important;
+  z-index: 50;
+  opacity: 0.08;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* Soft atmospheric vignette */
+.vignette-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none !important;
+  z-index: 10;
+  background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.78) 95%);
+}
+
+/* Slow drifting radial glow behind headlines */
+.radial-drift-glow {
+  position: absolute;
+  pointer-events: none !important;
+  width: 650px;
+  height: 650px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(198, 244, 0, 0.08) 0%, rgba(198, 244, 0, 0) 70%);
+  filter: blur(80px);
+  animation: driftGlow 22s ease-in-out infinite alternate;
+}
+
+@keyframes driftGlow {
+  0% {
+    transform: translate(-10%, -10%) scale(0.9);
+  }
+  50% {
+    transform: translate(15%, 8%) scale(1.15);
+  }
+  100% {
+    transform: translate(-5%, 12%) scale(1.0);
+  }
+}
+
+/* Watermark typography */
+.watermark-text {
+  user-select: none;
+  pointer-events: none;
+  font-family: var(--font-headline);
+  letter-spacing: -0.06em;
+  color: rgba(255, 255, 255, 0.022);
+  line-height: 0.8;
+}
+
+/* Slow Ken Burns camera drift */
+@keyframes kenBurnsSlow {
+  0% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1.04) translate(-1%, -1%);
+  }
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+}
+
+.ken-burns-slow {
+  animation: kenBurnsSlow 40s ease-in-out infinite alternate;
+}
+
+/* Custom discreet scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #222222;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+/* 2px Scanning Sensor Line drifting top -> bottom every 8s */
+@keyframes sensorScanDrift {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+.sensor-scanline {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.10) 25%, rgba(198, 244, 0, 0.25) 50%, rgba(255, 255, 255, 0.10) 75%, transparent 100%);
+  pointer-events: none !important;
+  z-index: 45;
+  animation: sensorScanDrift 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Camera Signal Tally Light Animations (Hero 4s pop cycle) */
+@keyframes tallyIdleCycle {
+  0%, 72% {
+    opacity: 0.35;
+    background-color: #3b4e02;
+    box-shadow: 0 0 4px rgba(198, 244, 0, 0.3);
+    transform: scale(0.96);
+  }
+  78% {
+    opacity: 1;
+    background-color: #C6F400;
+    box-shadow: 
+      0 0 10px #C6F400,
+      0 0 24px rgba(198, 244, 0, 0.85),
+      0 0 50px rgba(198, 244, 0, 0.45);
+    transform: scale(1.15);
+  }
+  86% {
+    opacity: 0.9;
+    background-color: #C6F400;
+    box-shadow: 
+      0 0 8px #C6F400,
+      0 0 18px rgba(198, 244, 0, 0.6);
+    transform: scale(1.04);
+  }
+  94%, 100% {
+    opacity: 0.35;
+    background-color: #3b4e02;
+    box-shadow: 0 0 4px rgba(198, 244, 0, 0.3);
+    transform: scale(0.96);
+  }
+}
+
+@keyframes tallyRingExpand {
+  0%, 72% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  78% {
+    opacity: 0.85;
+    transform: scale(1.1);
+  }
+  92% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.8);
+  }
+}
+
+@keyframes tallyFlareFlash {
+  0%, 72% {
+    opacity: 0;
+    transform: scaleX(0.1);
+  }
+  78% {
+    opacity: 0.95;
+    transform: scaleX(1.6);
+  }
+  86% {
+    opacity: 0.4;
+    transform: scaleX(0.9);
+  }
+  94%, 100% {
+    opacity: 0;
+    transform: scaleX(0.1);
+  }
+}
+
+.tally-lamp-core {
+  animation: tallyIdleCycle 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.tally-glow-ring {
+  pointer-events: none !important;
+  animation: tallyRingExpand 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.tally-lens-flare {
+  pointer-events: none !important;
+  animation: tallyFlareFlash 4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Evidence Cards: No rotate on hover, slight translateY only, no overlapping */
+.evidence-card {
+  position: relative;
+  border: 1px solid rgba(198, 244, 0, 0.18);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    0 8px 24px rgba(0, 0, 0, 0.55);
+  transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 220ms cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 220ms ease;
+  will-change: transform;
+}
+
+.evidence-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(198, 244, 0, 0.38);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(198, 244, 0, 0.08), 
+    0 14px 36px rgba(0, 0, 0, 0.65), 
+    0 0 25px rgba(198, 244, 0, 0.10);
+}
+
+/* 3D Luxury Cards */
+.card-3d-wrap {
+  perspective: 1200px;
+}
+
+.card-3d {
+  position: relative;
+  border: 1px solid rgba(198, 244, 0, 0.18);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.12),
+    0 12px 32px rgba(0, 0, 0, 0.55);
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1), 
+              border-color 400ms ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.card-3d:hover {
+  transform: rotateX(6deg) rotateY(-8deg) translateY(-6px);
+  border-color: rgba(198, 244, 0, 0.36);
+  box-shadow: 
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(198, 244, 0, 0.08), 
+    0 20px 60px rgba(0, 0, 0, 0.6), 
+    0 0 40px rgba(198, 244, 0, 0.12);
+}
+
+/* Soft green hover glow for buttons */
+.btn-green-glow {
+  transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-green-glow:hover {
+  box-shadow: 0 0 30px rgba(198, 244, 0, 0.42), 0 0 10px rgba(198, 244, 0, 0.25);
+}
+
+/* Call sheet filling bar */
+@keyframes callSheetFill {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.tally-step-filling {
+  animation: callSheetFill 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Verdict Decision Screen Flashes (1.2s) */
+@keyframes screenFlashGreen {
+  0% {
+    opacity: 0.9;
+    background: radial-gradient(circle at center, rgba(198, 244, 0, 0.5) 0%, rgba(198, 244, 0, 0.2) 45%, rgba(0, 0, 0, 0.95) 100%);
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes screenFlashAmber {
+  0% {
+    opacity: 0.85;
+    background: radial-gradient(circle at center, rgba(255, 176, 32, 0.45) 0%, rgba(255, 176, 32, 0.18) 45%, rgba(0, 0, 0, 0.95) 100%);
+  }
+  30% {
+    opacity: 0.55;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes screenFlashRed {
+  0% {
+    opacity: 0.9;
+    background: radial-gradient(circle at center, rgba(255, 77, 77, 0.5) 0%, rgba(255, 77, 77, 0.2) 45%, rgba(0, 0, 0, 0.95) 100%);
+  }
+  30% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+

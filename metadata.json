@@ -1,0 +1,6 @@
+{
+  "name": "GREENLIGHT",
+  "description": "Cinematic AI development executive for filmmakers and creators. Challenge concepts, research the live web, and decide what deserves production.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
