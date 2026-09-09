@@ -5,24 +5,13 @@ export default async function handler(req, res) {
 
   if (req.method === "OPTIONS") return res.status(200).end();
   if (req.method !== "POST") {
-    return res.status(405).json({
-      status: "unavailable",
-      message: "parallel search unavailable",
-      sources: [],
-    });
+    return res.status(405).json({ status: "unavailable", sources: [], message: "method" });
   }
 
   const key = process.env.PARALLEL_API_KEY;
-  if (!key) {
-    return res.status(200).json({
-      status: "unavailable",
-      message: "parallel search unavailable",
-      sources: [],
-    });
-  }
+  const query = (req.body && (req.body.query || req.body.objective)) || "";
 
-  const query = (req.body && req.body.query) || "";
-  if (!query) {
+  if (!key || !query) {
     return res.status(200).json({
       status: "unavailable",
       message: "parallel search unavailable",
@@ -46,7 +35,6 @@ export default async function handler(req, res) {
 
     const data = await r.json();
     const raw = data.results || data.hits || [];
-
     const sources = raw.map((item) => {
       const url = item.url || item.link || "";
       let domain = item.domain || "";
@@ -60,19 +48,19 @@ export default async function handler(req, res) {
         item.content ||
         "";
       return {
-        title: item.title || item.name || domain,
+        title: item.title || item.name || domain || "source",
         url,
         domain,
         excerpt: String(excerpt).slice(0, 180),
       };
-    });
+    }).filter((s) => s.url);
 
     return res.status(200).json({
       status: sources.length ? "ok" : "unavailable",
       message: sources.length ? undefined : "parallel search unavailable",
       sources,
     });
-  } catch (err) {
+  } catch {
     return res.status(200).json({
       status: "unavailable",
       message: "parallel search unavailable",
